@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:todos_supabase/injection.dart';
+import 'package:todos_supabase/presentation/bloc/todos_bloc.dart';
+import 'package:todos_supabase/presentation/pages/todos_page.dart';
 
-import 'app/routes/app_pages.dart';
-
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load();
-
-  await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
-  );
+  await initializeDependencies();
 
   runApp(MainApp());
 }
@@ -24,10 +18,20 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: "Application",
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<TodosBloc>(), // Registrasi TodosBloc
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Todos App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const TodosPage(), // Memulai dengan layar TodosScreen
+      ),
     );
   }
 }
