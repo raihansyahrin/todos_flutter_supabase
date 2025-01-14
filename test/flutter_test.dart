@@ -1,68 +1,65 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:todos_supabase/data/data_sources/remote/remote_data_sources.dart';
-import 'package:todos_supabase/data/models/todos_model.dart';
+import 'package:mockito/mockito.dart';
+import 'package:todos_supabase/features/todos/data/data_sources/remote/remote_data_sources.dart';
+import 'package:todos_supabase/features/todos/data/models/todos_model.dart';
+import 'package:todos_supabase/features/todos/data/respository_impl/todos_repository_impl.dart';
+import 'package:todos_supabase/features/todos/domain/entity/todos.dart';
 
-class MockSupabaseClient extends Mock implements SupabaseClient {}
-
-class MockSupabaseQueryBuilder extends Mock implements SupabaseQueryBuilder {}
+class MockRemoteDataSourcesImpl extends Mock implements RemoteDataSourcesImpl {}
 
 void main() {
-  late MockSupabaseClient mockSupabaseClient;
-  late MockSupabaseQueryBuilder mockQueryBuilder;
-  late RemoteDataSourcesImpl dataSource;
+  late MockRemoteDataSourcesImpl mockRemoteDataSourcesImpl;
+  late TodosRepositoryImpl todosRepositoryImpl;
 
   setUp(() {
-    mockSupabaseClient = MockSupabaseClient();
-    mockQueryBuilder = MockSupabaseQueryBuilder();
-    dataSource = RemoteDataSourcesImpl(mockSupabaseClient);
+    mockRemoteDataSourcesImpl = MockRemoteDataSourcesImpl();
+    todosRepositoryImpl = TodosRepositoryImpl(mockRemoteDataSourcesImpl);
   });
 
-  group('getTodo', () {
-    test('should return a stream of TodosModel when query succeeds', () async {
+  group('updateTodo', () {
+    final oldTodo = Todos(id: 1, name: 'Old Todo', isCompleted: false);
+    final newTodo = Todos(id: 1, name: 'Updated Todo', isCompleted: true);
+
+    test('should return success when updateTodo is called with valid data',
+        () async {
       // Arrange
-      when(() => mockSupabaseClient.from('todos')).thenReturn(mockQueryBuilder);
+      final oldTodoModel =
+          TodosModel(name: oldTodo.name, isCompleted: oldTodo.isCompleted);
+      final newTodoModel =
+          TodosModel(name: newTodo.name, isCompleted: newTodo.isCompleted);
 
-      final mockData = [
-        {'id': 1, 'name': 'Task 1', 'isCompleted': false},
-        {'id': 2, 'name': 'Task 2', 'isCompleted': true},
-      ];
-
-      when(() => mockQueryBuilder.stream(primaryKey: any(named: 'primaryKey')));
-      // .thenAnswer(
-      //     (_) => Stream.value(mockData as List<Map<String, dynamic>>));
+      // Mock the remote data source to return a successful response
+      when(mockRemoteDataSourcesImpl.updateTodo(oldTodoModel, newTodoModel))
+          .thenAnswer((_) async => Right('Success Update'));
 
       // Act
-      final result = dataSource.getTodo();
+      final result = await todosRepositoryImpl.updateTodo(oldTodo, newTodo);
 
       // Assert
-      result.fold(
-        (error) => fail('Should not return an error'),
-        (stream) async {
-          final todosList = await stream.first;
-          expect(todosList, isA<List<TodosModel>>());
-          expect(todosList.first.name, 'Task 1');
-          expect(todosList.first.isCompleted, false);
-        },
-      );
+      expect(result, equals(Right('Success Update')));
+      verify(mockRemoteDataSourcesImpl.updateTodo(oldTodoModel, newTodoModel))
+          .called(1);
     });
 
-    test('should return an error when query fails', () async {
+    test('should return error when updateTodo throws an exception', () async {
       // Arrange
-      when(() => mockSupabaseClient.from('todos')).thenReturn(mockQueryBuilder);
+      final oldTodoModel =
+          TodosModel(name: oldTodo.name, isCompleted: oldTodo.isCompleted);
+      final newTodoModel =
+          TodosModel(name: newTodo.name, isCompleted: newTodo.isCompleted);
 
-      when(() => mockQueryBuilder.stream(primaryKey: any(named: 'primaryKey')))
-          .thenThrow(Exception('Stream error'));
+      // Mock the remote data source to throw an exception
+      when(mockRemoteDataSourcesImpl.updateTodo(oldTodoModel, newTodoModel))
+          .thenThrow(Exception('Update failed'));
 
       // Act
-      final result = dataSource.getTodo();
+      final result = await todosRepositoryImpl.updateTodo(oldTodo, newTodo);
 
       // Assert
-      result.fold(
-        (error) => expect(error, 'Error Exception: Stream error'),
-        (_) => fail('Should return an error'),
-      );
+      expect(result, equals(Left('Exception: Update failed')));
+      verify(mockRemoteDataSourcesImpl.updateTodo(oldTodoModel, newTodoModel))
+          .called(1);
     });
   });
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:todos_supabase/injection.dart';
-import 'package:todos_supabase/presentation/bloc/todos_bloc.dart';
-import 'package:todos_supabase/presentation/pages/todos_page.dart';
+import 'package:todos_supabase/dependency_injection.dart';
+import 'package:todos_supabase/features/todos/presentation/cubit/todos_cubit.dart';
+import 'package:todos_supabase/features/todos/presentation/pages/todos_page_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<TodosBloc>(), // Registrasi TodosBloc
+          create: (context) => sl<TodosCubit>()..getTodos(),
         ),
       ],
       child: MaterialApp(
@@ -30,7 +30,7 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const TodosPage(), // Memulai dengan layar TodosScreen
+        home: const TodosPageCubit(),
       ),
     );
   }

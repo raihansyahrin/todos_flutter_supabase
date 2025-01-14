@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:todos_supabase/domain/entity/todos.dart';
-import 'package:todos_supabase/domain/repository/todos_repository.dart';
+import 'package:todos_supabase/features/todos/domain/entity/todos.dart';
+import 'package:todos_supabase/features/todos/domain/repository/todos_repository.dart';
 
 class GetTodoUsecase {
   final TodosRepository todosRepository;
