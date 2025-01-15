@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:todos_supabase/dependency_injection.dart';
 import 'package:todos_supabase/features/todos/presentation/cubit/todos_cubit.dart';
-import 'package:todos_supabase/features/todos/presentation/pages/todos_page_cubit.dart';
+import 'package:todos_supabase/features/todos/presentation/pages/todos_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const TodosPageCubit(),
+        home: const TodosPage(),
       ),
     );
   }

@@ -6,8 +6,8 @@ import 'package:todos_supabase/features/todos/domain/entity/todos.dart';
 import 'package:todos_supabase/features/todos/presentation/cubit/todos_cubit.dart';
 import 'package:todos_supabase/features/todos/presentation/cubit/todos_state.dart';
 
-class TodosPageCubit extends StatelessWidget {
-  const TodosPageCubit({super.key});
+class TodosPage extends StatelessWidget {
+  const TodosPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,9 @@ class TodosPageCubit extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting ||
                     !snapshot.hasData) {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Colors.blue,
+                    ),
                   );
                 }
 
@@ -130,7 +132,7 @@ class TodosPageCubit extends StatelessWidget {
 
                                               Navigator.of(context).pop();
                                             },
-                                            child: const Text('Add'),
+                                            child: const Text('Edit'),
                                           ),
                                         ],
                                       );
