@@ -8,7 +8,10 @@ import 'package:todos_supabase/features/todos/domain/usecases/create_todo_usecas
 import 'package:todos_supabase/features/todos/domain/usecases/delete_todo_usecase.dart';
 import 'package:todos_supabase/features/todos/domain/usecases/get_todo_usecase.dart';
 import 'package:todos_supabase/features/todos/domain/usecases/update_todo_usecase.dart';
-import 'package:todos_supabase/features/todos/presentation/cubit/todos_state.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'todos_state.dart';
+part 'todos_cubit.freezed.dart';
 
 class TodosCubit extends Cubit<TodosState> {
   CreateTodoUsecase createTodoUsecase;
@@ -23,21 +26,20 @@ class TodosCubit extends Cubit<TodosState> {
     required this.getTodoUsecase,
     required this.updateTodoUsecase,
     required this.deleteTodoUsecase,
-  }) : super(TodosInitial());
+  }) : super(TodosState.initial());
 
   void getTodos() {
-    emit(TodosLoading());
     final result = getTodoUsecase.execute();
     result.fold(
-      (failure) => emit(TodosFailure(failure)),
-      (success) => emit(TodosLoaded(success)),
+      (failure) => emit(TodosState.error(failure)),
+      (success) => emit(TodosState.loaded(success)),
     );
   }
 
   void createTodos(Todos todos) async {
     final result = await createTodoUsecase.execute(todos);
     result.fold(
-      (failure) => emit(TodosFailure(failure)),
+      (failure) => emit(TodosState.error(failure)),
       (success) => log(success),
     );
   }
@@ -48,40 +50,37 @@ class TodosCubit extends Cubit<TodosState> {
 
   void updateTodo(
     Todos oldTodos,
+    Todos newTodos,
     bool isFinished,
   ) async {
-    // emit(TodosLoading());\p\
+    // emit(TodosState.loading());
 
     try {
       if (!isFinished) {
         final Either<String, String> data = await updateTodoUsecase.execute(
-            oldTodos,
-            Todos(
-              id: oldTodos.id,
-              name: textEditingController.text,
-              isCompleted: oldTodos.isCompleted,
-            ));
+          oldTodos,
+          newTodos,
+        );
         return data.fold(
           (l) {
-            log('bapak kiri');
-            emit(TodosFailure(l));
+            log(l);
+            emit(TodosState.error(l));
           },
           (r) {
             log(r);
+            // emit(TodosState.success(r));
+            getTodos();
           },
         );
       } else {
         toggleCompleted();
         final Either<String, String> data = await updateTodoUsecase.execute(
-            oldTodos,
-            Todos(
-              id: oldTodos.id,
-              name: oldTodos.name,
-              isCompleted: isToggleCompleted,
-            ));
+          oldTodos,
+          newTodos,
+        );
         return data.fold(
           (l) {
-            emit(TodosFailure(l));
+            emit(TodosState.error(l));
           },
           (r) {
             log(r);
@@ -89,25 +88,26 @@ class TodosCubit extends Cubit<TodosState> {
         );
       }
     } catch (e) {
-      return emit(TodosFailure(e.toString()));
+      return emit(TodosState.error(e.toString()));
+    } finally {
+      textEditingController.clear();
     }
   }
 
   void deleteTodo(Todos todos) async {
-    // emit(TodosLoading());
     try {
       final Either<String, String> data =
           await deleteTodoUsecase.execute(todos);
       return data.fold(
         (l) {
-          emit(TodosFailure(l));
+          emit(TodosState.error(l));
         },
         (r) {
           log(r);
         },
       );
     } catch (e) {
-      return emit(TodosFailure(e.toString()));
+      return emit(TodosState.error(e.toString()));
     }
   }
 }
