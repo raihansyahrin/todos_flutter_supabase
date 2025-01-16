@@ -16,31 +16,32 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TodosState {
+  bool get isLoading => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(String message) success,
-    required TResult Function(Stream<List<Todos>> todos) loaded,
-    required TResult Function(String error) error,
+    required TResult Function(bool isLoading) initial,
+    required TResult Function(bool isLoading) loading,
+    required TResult Function(String message, bool isLoading) success,
+    required TResult Function(Stream<List<Todos>> todos, bool isLoading) loaded,
+    required TResult Function(String error, bool isLoading) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(String message)? success,
-    TResult? Function(Stream<List<Todos>> todos)? loaded,
-    TResult? Function(String error)? error,
+    TResult? Function(bool isLoading)? initial,
+    TResult? Function(bool isLoading)? loading,
+    TResult? Function(String message, bool isLoading)? success,
+    TResult? Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult? Function(String error, bool isLoading)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(String message)? success,
-    TResult Function(Stream<List<Todos>> todos)? loaded,
-    TResult Function(String error)? error,
+    TResult Function(bool isLoading)? initial,
+    TResult Function(bool isLoading)? loading,
+    TResult Function(String message, bool isLoading)? success,
+    TResult Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult Function(String error, bool isLoading)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -72,6 +73,12 @@ mixin _$TodosState {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  /// Create a copy of TodosState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TodosStateCopyWith<TodosState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -79,6 +86,8 @@ abstract class $TodosStateCopyWith<$Res> {
   factory $TodosStateCopyWith(
           TodosState value, $Res Function(TodosState) then) =
       _$TodosStateCopyWithImpl<$Res, TodosState>;
+  @useResult
+  $Res call({bool isLoading});
 }
 
 /// @nodoc
@@ -93,13 +102,29 @@ class _$TodosStateCopyWithImpl<$Res, $Val extends TodosState>
 
   /// Create a copy of TodosState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$InitialImplCopyWith<$Res> {
+abstract class _$$InitialImplCopyWith<$Res>
+    implements $TodosStateCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
           _$InitialImpl value, $Res Function(_$InitialImpl) then) =
       __$$InitialImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool isLoading});
 }
 
 /// @nodoc
@@ -112,63 +137,90 @@ class __$$InitialImplCopyWithImpl<$Res>
 
   /// Create a copy of TodosState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+  }) {
+    return _then(_$InitialImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl();
+  const _$InitialImpl({this.isLoading = false});
+
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'TodosState.initial()';
+    return 'TodosState.initial(isLoading: $isLoading)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitialImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$InitialImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, isLoading);
+
+  /// Create a copy of TodosState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
+      __$$InitialImplCopyWithImpl<_$InitialImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(String message) success,
-    required TResult Function(Stream<List<Todos>> todos) loaded,
-    required TResult Function(String error) error,
+    required TResult Function(bool isLoading) initial,
+    required TResult Function(bool isLoading) loading,
+    required TResult Function(String message, bool isLoading) success,
+    required TResult Function(Stream<List<Todos>> todos, bool isLoading) loaded,
+    required TResult Function(String error, bool isLoading) error,
   }) {
-    return initial();
+    return initial(isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(String message)? success,
-    TResult? Function(Stream<List<Todos>> todos)? loaded,
-    TResult? Function(String error)? error,
+    TResult? Function(bool isLoading)? initial,
+    TResult? Function(bool isLoading)? loading,
+    TResult? Function(String message, bool isLoading)? success,
+    TResult? Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult? Function(String error, bool isLoading)? error,
   }) {
-    return initial?.call();
+    return initial?.call(isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(String message)? success,
-    TResult Function(Stream<List<Todos>> todos)? loaded,
-    TResult Function(String error)? error,
+    TResult Function(bool isLoading)? initial,
+    TResult Function(bool isLoading)? loading,
+    TResult Function(String message, bool isLoading)? success,
+    TResult Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult Function(String error, bool isLoading)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial();
+      return initial(isLoading);
     }
     return orElse();
   }
@@ -215,14 +267,28 @@ class _$InitialImpl implements _Initial {
 }
 
 abstract class _Initial implements TodosState {
-  const factory _Initial() = _$InitialImpl;
+  const factory _Initial({final bool isLoading}) = _$InitialImpl;
+
+  @override
+  bool get isLoading;
+
+  /// Create a copy of TodosState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$LoadingImplCopyWith<$Res> {
+abstract class _$$LoadingImplCopyWith<$Res>
+    implements $TodosStateCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
           _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
       __$$LoadingImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool isLoading});
 }
 
 /// @nodoc
@@ -235,63 +301,90 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
   /// Create a copy of TodosState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+  }) {
+    return _then(_$LoadingImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl();
+  const _$LoadingImpl({this.isLoading = false});
+
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'TodosState.loading()';
+    return 'TodosState.loading(isLoading: $isLoading)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadingImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$LoadingImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, isLoading);
+
+  /// Create a copy of TodosState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(String message) success,
-    required TResult Function(Stream<List<Todos>> todos) loaded,
-    required TResult Function(String error) error,
+    required TResult Function(bool isLoading) initial,
+    required TResult Function(bool isLoading) loading,
+    required TResult Function(String message, bool isLoading) success,
+    required TResult Function(Stream<List<Todos>> todos, bool isLoading) loaded,
+    required TResult Function(String error, bool isLoading) error,
   }) {
-    return loading();
+    return loading(isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(String message)? success,
-    TResult? Function(Stream<List<Todos>> todos)? loaded,
-    TResult? Function(String error)? error,
+    TResult? Function(bool isLoading)? initial,
+    TResult? Function(bool isLoading)? loading,
+    TResult? Function(String message, bool isLoading)? success,
+    TResult? Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult? Function(String error, bool isLoading)? error,
   }) {
-    return loading?.call();
+    return loading?.call(isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(String message)? success,
-    TResult Function(Stream<List<Todos>> todos)? loaded,
-    TResult Function(String error)? error,
+    TResult Function(bool isLoading)? initial,
+    TResult Function(bool isLoading)? loading,
+    TResult Function(String message, bool isLoading)? success,
+    TResult Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult Function(String error, bool isLoading)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading();
+      return loading(isLoading);
     }
     return orElse();
   }
@@ -338,16 +431,28 @@ class _$LoadingImpl implements _Loading {
 }
 
 abstract class _Loading implements TodosState {
-  const factory _Loading() = _$LoadingImpl;
+  const factory _Loading({final bool isLoading}) = _$LoadingImpl;
+
+  @override
+  bool get isLoading;
+
+  /// Create a copy of TodosState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SuccessImplCopyWith<$Res> {
+abstract class _$$SuccessImplCopyWith<$Res>
+    implements $TodosStateCopyWith<$Res> {
   factory _$$SuccessImplCopyWith(
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({String message});
+  $Res call({String message, bool isLoading});
 }
 
 /// @nodoc
@@ -364,12 +469,17 @@ class __$$SuccessImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? message = null,
+    Object? isLoading = null,
   }) {
     return _then(_$SuccessImpl(
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -377,14 +487,17 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(this.message);
+  const _$SuccessImpl(this.message, {this.isLoading = false});
 
   @override
   final String message;
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'TodosState.success(message: $message)';
+    return 'TodosState.success(message: $message, isLoading: $isLoading)';
   }
 
   @override
@@ -392,11 +505,13 @@ class _$SuccessImpl implements _Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message);
+  int get hashCode => Object.hash(runtimeType, message, isLoading);
 
   /// Create a copy of TodosState
   /// with the given fields replaced by the non-null parameter values.
@@ -409,39 +524,39 @@ class _$SuccessImpl implements _Success {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(String message) success,
-    required TResult Function(Stream<List<Todos>> todos) loaded,
-    required TResult Function(String error) error,
+    required TResult Function(bool isLoading) initial,
+    required TResult Function(bool isLoading) loading,
+    required TResult Function(String message, bool isLoading) success,
+    required TResult Function(Stream<List<Todos>> todos, bool isLoading) loaded,
+    required TResult Function(String error, bool isLoading) error,
   }) {
-    return success(message);
+    return success(message, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(String message)? success,
-    TResult? Function(Stream<List<Todos>> todos)? loaded,
-    TResult? Function(String error)? error,
+    TResult? Function(bool isLoading)? initial,
+    TResult? Function(bool isLoading)? loading,
+    TResult? Function(String message, bool isLoading)? success,
+    TResult? Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult? Function(String error, bool isLoading)? error,
   }) {
-    return success?.call(message);
+    return success?.call(message, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(String message)? success,
-    TResult Function(Stream<List<Todos>> todos)? loaded,
-    TResult Function(String error)? error,
+    TResult Function(bool isLoading)? initial,
+    TResult Function(bool isLoading)? loading,
+    TResult Function(String message, bool isLoading)? success,
+    TResult Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult Function(String error, bool isLoading)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(message);
+      return success(message, isLoading);
     }
     return orElse();
   }
@@ -488,24 +603,30 @@ class _$SuccessImpl implements _Success {
 }
 
 abstract class _Success implements TodosState {
-  const factory _Success(final String message) = _$SuccessImpl;
+  const factory _Success(final String message, {final bool isLoading}) =
+      _$SuccessImpl;
 
   String get message;
+  @override
+  bool get isLoading;
 
   /// Create a copy of TodosState
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$LoadedImplCopyWith<$Res> {
+abstract class _$$LoadedImplCopyWith<$Res>
+    implements $TodosStateCopyWith<$Res> {
   factory _$$LoadedImplCopyWith(
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({Stream<List<Todos>> todos});
+  $Res call({Stream<List<Todos>> todos, bool isLoading});
 }
 
 /// @nodoc
@@ -522,12 +643,17 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? todos = null,
+    Object? isLoading = null,
   }) {
     return _then(_$LoadedImpl(
       null == todos
           ? _value.todos
           : todos // ignore: cast_nullable_to_non_nullable
               as Stream<List<Todos>>,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -535,14 +661,17 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(this.todos);
+  const _$LoadedImpl(this.todos, {this.isLoading = false});
 
   @override
   final Stream<List<Todos>> todos;
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'TodosState.loaded(todos: $todos)';
+    return 'TodosState.loaded(todos: $todos, isLoading: $isLoading)';
   }
 
   @override
@@ -550,11 +679,13 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            (identical(other.todos, todos) || other.todos == todos));
+            (identical(other.todos, todos) || other.todos == todos) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, todos);
+  int get hashCode => Object.hash(runtimeType, todos, isLoading);
 
   /// Create a copy of TodosState
   /// with the given fields replaced by the non-null parameter values.
@@ -567,39 +698,39 @@ class _$LoadedImpl implements _Loaded {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(String message) success,
-    required TResult Function(Stream<List<Todos>> todos) loaded,
-    required TResult Function(String error) error,
+    required TResult Function(bool isLoading) initial,
+    required TResult Function(bool isLoading) loading,
+    required TResult Function(String message, bool isLoading) success,
+    required TResult Function(Stream<List<Todos>> todos, bool isLoading) loaded,
+    required TResult Function(String error, bool isLoading) error,
   }) {
-    return loaded(todos);
+    return loaded(todos, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(String message)? success,
-    TResult? Function(Stream<List<Todos>> todos)? loaded,
-    TResult? Function(String error)? error,
+    TResult? Function(bool isLoading)? initial,
+    TResult? Function(bool isLoading)? loading,
+    TResult? Function(String message, bool isLoading)? success,
+    TResult? Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult? Function(String error, bool isLoading)? error,
   }) {
-    return loaded?.call(todos);
+    return loaded?.call(todos, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(String message)? success,
-    TResult Function(Stream<List<Todos>> todos)? loaded,
-    TResult Function(String error)? error,
+    TResult Function(bool isLoading)? initial,
+    TResult Function(bool isLoading)? loading,
+    TResult Function(String message, bool isLoading)? success,
+    TResult Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult Function(String error, bool isLoading)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(todos);
+      return loaded(todos, isLoading);
     }
     return orElse();
   }
@@ -646,24 +777,29 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements TodosState {
-  const factory _Loaded(final Stream<List<Todos>> todos) = _$LoadedImpl;
+  const factory _Loaded(final Stream<List<Todos>> todos,
+      {final bool isLoading}) = _$LoadedImpl;
 
   Stream<List<Todos>> get todos;
+  @override
+  bool get isLoading;
 
   /// Create a copy of TodosState
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ErrorImplCopyWith<$Res> {
+abstract class _$$ErrorImplCopyWith<$Res> implements $TodosStateCopyWith<$Res> {
   factory _$$ErrorImplCopyWith(
           _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
       __$$ErrorImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({String error});
+  $Res call({String error, bool isLoading});
 }
 
 /// @nodoc
@@ -680,12 +816,17 @@ class __$$ErrorImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? error = null,
+    Object? isLoading = null,
   }) {
     return _then(_$ErrorImpl(
       null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -693,14 +834,17 @@ class __$$ErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ErrorImpl implements _Error {
-  const _$ErrorImpl(this.error);
+  const _$ErrorImpl(this.error, {this.isLoading = false});
 
   @override
   final String error;
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'TodosState.error(error: $error)';
+    return 'TodosState.error(error: $error, isLoading: $isLoading)';
   }
 
   @override
@@ -708,11 +852,13 @@ class _$ErrorImpl implements _Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorImpl &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, error);
+  int get hashCode => Object.hash(runtimeType, error, isLoading);
 
   /// Create a copy of TodosState
   /// with the given fields replaced by the non-null parameter values.
@@ -725,39 +871,39 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(String message) success,
-    required TResult Function(Stream<List<Todos>> todos) loaded,
-    required TResult Function(String error) error,
+    required TResult Function(bool isLoading) initial,
+    required TResult Function(bool isLoading) loading,
+    required TResult Function(String message, bool isLoading) success,
+    required TResult Function(Stream<List<Todos>> todos, bool isLoading) loaded,
+    required TResult Function(String error, bool isLoading) error,
   }) {
-    return error(this.error);
+    return error(this.error, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(String message)? success,
-    TResult? Function(Stream<List<Todos>> todos)? loaded,
-    TResult? Function(String error)? error,
+    TResult? Function(bool isLoading)? initial,
+    TResult? Function(bool isLoading)? loading,
+    TResult? Function(String message, bool isLoading)? success,
+    TResult? Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult? Function(String error, bool isLoading)? error,
   }) {
-    return error?.call(this.error);
+    return error?.call(this.error, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(String message)? success,
-    TResult Function(Stream<List<Todos>> todos)? loaded,
-    TResult Function(String error)? error,
+    TResult Function(bool isLoading)? initial,
+    TResult Function(bool isLoading)? loading,
+    TResult Function(String message, bool isLoading)? success,
+    TResult Function(Stream<List<Todos>> todos, bool isLoading)? loaded,
+    TResult Function(String error, bool isLoading)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(this.error);
+      return error(this.error, isLoading);
     }
     return orElse();
   }
@@ -804,12 +950,16 @@ class _$ErrorImpl implements _Error {
 }
 
 abstract class _Error implements TodosState {
-  const factory _Error(final String error) = _$ErrorImpl;
+  const factory _Error(final String error, {final bool isLoading}) =
+      _$ErrorImpl;
 
   String get error;
+  @override
+  bool get isLoading;
 
   /// Create a copy of TodosState
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;

@@ -18,13 +18,13 @@ class TodosPage extends StatelessWidget {
       body: BlocBuilder<TodosCubit, TodosState>(
         builder: (context, state) {
           return state.when(
-            initial: () => Center(
+            initial: (isLoading) => Center(
               child: Text('Initial'),
             ),
-            loading: () => Center(
+            loading: (isLoading) => Center(
               child: CircularProgressIndicator(),
             ),
-            success: (message) {
+            success: (message, isLoading) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(message),
@@ -32,7 +32,7 @@ class TodosPage extends StatelessWidget {
               );
               return SizedBox.shrink();
             },
-            loaded: (todos) {
+            loaded: (todos, isLoading) {
               return StreamBuilder<List<Todos>>(
                 stream: todos,
                 builder: (context, snapshot) {
@@ -62,17 +62,16 @@ class TodosPage extends StatelessWidget {
                         var data = snapshot.data![index];
 
                         return ListTile(
-                          title: (snapshot.connectionState ==
-                                      ConnectionState.waiting ||
-                                  !snapshot.hasData ||
-                                  snapshot.data!.isEmpty ||
-                                  snapshot.data == data.id)
+                         
+                          title: 
+                                  context.watch<TodosCubit>().state.isLoading
                               ? Container(
                                   width: 100,
                                   height: 20,
                                   color: Colors.grey,
                                 )
                               : Text(data.name),
+                          // title: Text(data.name),
                           trailing: SizedBox(
                             width: 150,
                             child: Row(
@@ -167,7 +166,7 @@ class TodosPage extends StatelessWidget {
                 },
               );
             },
-            error: (error) => Center(
+            error: (isLoading, error) => Center(
               child: Text('Error: $error'),
             ),
           );
