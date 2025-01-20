@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todos_supabase/features/todos/domain/entity/todos.dart';
 import 'package:todos_supabase/features/todos/presentation/cubit/todos_cubit.dart';
+import 'package:todos_supabase/main.dart';
 
 class TodosPage extends StatelessWidget {
   const TodosPage({super.key});
@@ -13,18 +15,27 @@ class TodosPage extends StatelessWidget {
     log('rebuild body');
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todos Cubit'),
+        title: Text('Todos Cubit ${supabase.auth.currentUser?.email}'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              supabase.auth.signOut();
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
       ),
       body: BlocBuilder<TodosCubit, TodosState>(
         builder: (context, state) {
           return state.when(
-            initial: (isLoading) => Center(
+            initial: () => Center(
               child: Text('Initial'),
             ),
-            loading: (isLoading) => Center(
+            loading: () => Center(
               child: CircularProgressIndicator(),
             ),
-            success: (message, isLoading) {
+            success: (message) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(message),
@@ -32,7 +43,7 @@ class TodosPage extends StatelessWidget {
               );
               return SizedBox.shrink();
             },
-            loaded: (todos, isLoading) {
+            loaded: (todos) {
               return StreamBuilder<List<Todos>>(
                 stream: todos,
                 builder: (context, snapshot) {
@@ -62,16 +73,14 @@ class TodosPage extends StatelessWidget {
                         var data = snapshot.data![index];
 
                         return ListTile(
-                         
-                          title: 
-                                  context.watch<TodosCubit>().state.isLoading
-                              ? Container(
-                                  width: 100,
-                                  height: 20,
-                                  color: Colors.grey,
-                                )
-                              : Text(data.name),
-                          // title: Text(data.name),
+                          // title: (state is TodosState.loading)
+                          //     ? Container(
+                          //         width: 100,
+                          //         height: 20,
+                          //         color: Colors.grey,
+                          //       )
+                          //     : Text(data.name),
+                          title: Text(data.name),
                           trailing: SizedBox(
                             width: 150,
                             child: Row(
@@ -166,7 +175,7 @@ class TodosPage extends StatelessWidget {
                 },
               );
             },
-            error: (isLoading, error) => Center(
+            error: (error) => Center(
               child: Text('Error: $error'),
             ),
           );

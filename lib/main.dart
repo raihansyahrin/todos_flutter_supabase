@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:todos_supabase/dependency_injection.dart';
+import 'package:todos_supabase/features/coba/login_page.dart';
+import 'package:todos_supabase/features/coba/register_page.dart';
+import 'package:todos_supabase/features/coba/splash_page.dart';
 import 'package:todos_supabase/features/todos/presentation/cubit/todos_cubit.dart';
 import 'package:todos_supabase/features/todos/presentation/pages/todos_page.dart';
 
@@ -12,6 +16,8 @@ Future<void> main() async {
 
   runApp(MainApp());
 }
+
+final supabase = Supabase.instance.client;
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -30,7 +36,16 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const TodosPage(),
+        // home: const TodosPage(),
+        initialRoute: '/splash',
+        routes: {
+          // When navigating to the "/" route, build the FirstScreen widget.
+          '/splash': (context) => const SplashPage(),
+          '/login': (context) => const LoginPage(),
+          '/register': (context) => const RegisterPage(),
+          // When navigating to the "/second" route, build the SecondScreen widget.
+          '/todos': (context) => const TodosPage(),
+        },
       ),
     );
   }

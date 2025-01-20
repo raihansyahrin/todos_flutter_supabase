@@ -53,12 +53,12 @@ class TodosCubit extends Cubit<TodosState> {
     Todos newTodos,
     bool isFinished,
   ) async {
-    // emit(TodosState.loading());
+    emit(TodosState.loading());
 
     try {
       if (!isFinished) {
-        emit(state.copyWith(isLoading: true));
-        print('before is loding ${state.isLoading}');
+        // emit(state.copyWith(isLoading: true));
+        // print('before is loding ${state.isLoading}');
         await Future.delayed(Duration(seconds: 5));
         final Either<String, String> data = await updateTodoUsecase.execute(
           oldTodos,
@@ -71,10 +71,10 @@ class TodosCubit extends Cubit<TodosState> {
           },
           (r) {
             log(r);
-            // emit(TodosState.success(r));
+            emit(TodosState.success(r));
             getTodos();
-            emit(state.copyWith(isLoading: false));
-            print('after is loding ${state.isLoading}');
+            // emit(state.copyWith(isLoading: false));
+            // print('after is loding ${state.isLoading}');
           },
         );
       } else {
